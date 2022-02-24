@@ -4,39 +4,55 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖼️</text></svg>"
+    />
     <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
     <title>Etch a Sketch</title>
   </head>
   <body>
     <div id="header">
-      <h1>Enter the grid size</h1>
-      
+      <h1>Etch A Sketch</h1>
     </div>
     <section>
-        <div id="sketchBody">
-            <div id="sidePanel">
-                <input type="color" name="color" id="colorBox">
-                <button id="colorBtn">Color Mode</button>
-                <button id="rainbowBtn">Rainbow Mode</button>
-                <button id="eraserBtn">Eraser</button>
-                <button id="clearBtn">Clear</button>
-                <input
-              type="range"
-              value="16"
-              min="1"
-              max="64"
-              id="rows"
-              class="inputs"
-              name="rows"
-            />
-            </div>
-            <div id="container">
-              <div id="grid"></div>
-            </div>
+      <div id="sketchBody">
+        <div id="sidePanel">
+          <div class="color-box-container">
+            <input type="color" name="color" id="colorBox" />
+          </div>
+          <button id="colorBtn">🎨 Color Mode</button>
+          <button id="rainbowBtn">🌈 Rainbow Mode</button>
+          <button id="eraseBtn">🧹 Eraser</button>
+          <button id="clearBtn">🔲 Clear</button>
+          <input
+            type="range"
+            value="16"
+            min="1"
+            max="64"
+            id="rows"
+            class="inputs slider"
+            name="rows"
+          />
+          <div class="slider-value">12x12</div>
         </div>
+        <div id="container">
+          <div id="grid"></div>
+        </div>
+      </div>
     </section>
     <footer>
-        Copyright © <script>document.write(/\d{4}/.exec(Date())[0])</script> marcojhb
+      Copyright ©
+      <script>
+        document.write(/\d{4}/.exec(Date())[0]);
+      </script>
+      marcojhb
     </footer>
     <script src="./app.js"></script>
   </body>
