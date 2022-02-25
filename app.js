@@ -4,20 +4,33 @@ const grid = document.querySelector("#grid");
 let DEFAULT_SIZE = 16;
 const chosenColor = document.querySelector("#colorBox");
 const colorBtn = document.querySelector("#colorBtn");
+const rainbowBtn = document.querySelector("#rainbowBtn");
 const clearBtn = document.querySelector("#clearBtn");
 const eraseBtn = document.querySelector("#eraseBtn");
 const sliderValue = document.querySelector(".slider-value");
+const btns = document.querySelectorAll("button");
 let eraseCheck = false;
+let rainbowCheck = false;
 
-eraseBtn.addEventListener("click",eraseCells);
 colorBtn.addEventListener("click",colorCells);
+eraseBtn.addEventListener("click",eraseCells);
+rainbowBtn.addEventListener("click",rainbowCells);
+
 
 function colorCells(e) {
   eraseCheck = false;
+  rainbowCheck = false;
+}
+
+function rainbowCells(e) {
+  rainbowCheck = true;
+  eraseCheck = false;
+  return rainbowCheck;
 }
 
 function eraseCells(e) {
   eraseCheck = true;
+  rainbowCheck = false;
   let eraseColor = "#ededed";
   console.log("Erase board with " + eraseColor)
   // this.style.backgroundColor = currentColor;
@@ -99,19 +112,33 @@ function fillCells(e) {
   );
 }
 
+// RAINBOW COLOR
+
 // STANDARD COLOR SELECTION
 
 function colorGrid(e) {
   let eraseColor = "#ededed";
-  console.log(eraseCheck,eraseColor,chosenColor.value);
-  eraseCheck ? currentColor = eraseColor : currentColor = chosenColor.value;
-  // let currentColor = chosenColor.value;
-  this.style.backgroundColor = currentColor;
+  console.log(rainbowCheck,eraseCheck,eraseColor,chosenColor.value);
+  if (eraseCheck == true) {
+    this.style.backgroundColor = eraseColor;
+  } else if (rainbowCheck == true) {
+    const randomR = Math.floor(Math.random() * 256)
+    const randomG = Math.floor(Math.random() * 256)
+    const randomB = Math.floor(Math.random() * 256)
+    this.style.backgroundColor = `rgb(${randomR}, ${randomG}, ${randomB})`
+  } else {
+    currentColor = chosenColor.value;
+    this.style.backgroundColor = currentColor;
+  };
+  
   let gridPixels = grid.querySelectorAll("div");
   gridPixels.forEach((gridPixel) =>
     gridPixel.addEventListener("mouseup", stopColor)
   );
 }
+
+
+
 
 // STOP COLOR
 
@@ -142,3 +169,17 @@ inputs.forEach((input) => {
 // INITIALIZE GRID
 
 makeRows(DEFAULT_SIZE, DEFAULT_SIZE);
+
+
+// TOGGLE BUTTONS
+
+
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+  var current = document.getElementsByClassName("active");
+  if (current.length > 0) { 
+    current[0].className = current[0].className.replace(" active", "");
+  }
+  this.className += " active";
+  });
+}
