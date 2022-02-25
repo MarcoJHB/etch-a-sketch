@@ -13,8 +13,11 @@ let eraseCheck = false;
 let rainbowCheck = false;
 
 colorBtn.addEventListener("click", colorCells);
+colorBtn.addEventListener("touchstart", colorCells);
 eraseBtn.addEventListener("click", eraseCells);
+eraseBtn.addEventListener("touchstart", eraseCells);
 rainbowBtn.addEventListener("click", rainbowCells);
+rainbowBtn.addEventListener("touchstart", rainbowCells);
 
 function colorCells(e) {
   eraseCheck = false;
@@ -53,6 +56,7 @@ function displayColor(e) {
 // CLEAR GRID BUTTON
 
 clearBtn.addEventListener("click", clearGrid);
+clearBtn.addEventListener("touchstart", clearGrid);
 
 function clearGrid(e) {
   while (grid.firstChild) {
@@ -87,6 +91,7 @@ function makeRows(rowInput, colInput) {
   }
   let gridPixels = grid.querySelectorAll("div");
   gridPixels.forEach((gridPixel) => gridPixel.addEventListener("mousedown", fillCells));
+  gridPixels.forEach((gridPixel) => gridPixel.addEventListener("touchmove", fillCells));
 }
 
 // FILL CELLS WHILE DRAWING
@@ -94,7 +99,10 @@ function makeRows(rowInput, colInput) {
 function fillCells(e) {
   let gridPixels = grid.querySelectorAll("div");
   gridPixels.forEach((gridPixel) => gridPixel.addEventListener("click", colorGrid));
+  gridPixels.forEach((gridPixel) => gridPixel.addEventListener("touchstart", colorGrid));
   gridPixels.forEach((gridPixel) => gridPixel.addEventListener("mouseenter", colorGrid));
+  gridPixels.forEach((gridPixel) => gridPixel.addEventListener("touchmove", colorGrid));
+  
 }
 
 // RAINBOW COLOR
@@ -102,6 +110,9 @@ function fillCells(e) {
 // STANDARD COLOR SELECTION
 
 function colorGrid(e) {
+
+
+  
   let eraseColor = "#ededed";
   console.log(rainbowCheck, eraseCheck, eraseColor, chosenColor.value);
   if (eraseCheck == true) {
@@ -111,6 +122,7 @@ function colorGrid(e) {
     const randomG = Math.floor(Math.random() * 256);
     const randomB = Math.floor(Math.random() * 256);
     this.style.backgroundColor = `rgb(${randomR}, ${randomG}, ${randomB})`;
+    console.log("Color time!")
   } else {
     currentColor = chosenColor.value;
     this.style.backgroundColor = currentColor;
@@ -118,6 +130,8 @@ function colorGrid(e) {
 
   let gridPixels = grid.querySelectorAll("div");
   gridPixels.forEach((gridPixel) => gridPixel.addEventListener("mouseup", stopColor));
+  gridPixels.forEach((gridPixel) => gridPixel.addEventListener("touchleave", stopColor));
+  return gridPixels;
 }
 
 // STOP COLOR
@@ -125,6 +139,8 @@ function colorGrid(e) {
 function stopColor(e) {
   let gridPixels = grid.querySelectorAll("div");
   gridPixels.forEach((gridPixel) => gridPixel.removeEventListener("mouseenter", colorGrid));
+  gridPixels.forEach((gridPixel) => gridPixel.removeEventListener("touchend", colorGrid));
+  
 }
 
 // UPDATE GRID SIZE
@@ -157,3 +173,33 @@ for (var i = 0; i < btns.length; i++) {
     this.className += " active";
   });
 }
+
+
+window.addEventListener('load', function(){
+ 
+  var box1 = document.getElementById('box1')
+  var statusdiv = document.getElementById('statusdiv')
+  var startx = 0
+  var dist = 0
+
+  gridPixels.addEventListener('touchstart', function(e){
+      var touchobj = e.changedTouches[0] // reference first touch point (ie: first finger)
+      startx = parseInt(touchobj.clientX) // get x position of touch point relative to left edge of browser
+      statusdiv.innerHTML = 'Status: touchstart<br> ClientX: ' + startx + 'px'
+      e.preventDefault()
+  }, false)
+
+gridPixels.addEventListener('touchmove', function(e){
+      var touchobj = e.changedTouches[0] // reference first touch point for this event
+      var dist = parseInt(touchobj.clientX) - startx
+      statusdiv.innerHTML = 'Status: touchmove<br> Horizontal distance traveled: ' + dist + 'px'
+      e.preventDefault()
+  }, false)
+
+  box1.addEventListener('touchend', function(e){
+      var touchobj = e.changedTouches[0] // reference first touch point for this event
+      statusdiv.innerHTML = 'Status: touchend<br> Resting x coordinate: ' + touchobj.clientX + 'px'
+      e.preventDefault()
+  }, false)
+
+}, false)
